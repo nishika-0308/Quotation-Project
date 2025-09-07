@@ -8,7 +8,7 @@ def create_overlay(excel_file, overlay_file, client_name, date):
     c = canvas.Canvas(overlay_file, pagesize=A4)
 
     # === Client and Date ===
-    c.setFont("Helvetica-Bold", 12)
+    c.setFont("Times-Bold", 12)
     c.drawString(50, 710, client_name)
     c.drawString(470, 710, date)
 
@@ -17,16 +17,35 @@ def create_overlay(excel_file, overlay_file, client_name, date):
     row_height = 33
     x_positions = [25, 60, 260, 385, 453, 508]
 
+    # for i, row in df.iterrows():
+    #     y = start_y - i * row_height
+    #     c.setFont("Times-Bold", 10)
+    #     c.drawString(x_positions[0] + 2, y, str(i+1))
+    #     c.drawString(x_positions[1] + 2, y, str(row["Item"]))
+    #     c.drawString(x_positions[2] + 2, y, str(row["Make"]))
+    #     c.drawString(x_positions[3] + 2, y, str(row["Quantity"]))
+    #     c.drawString(x_positions[4] + 2, y, str(row["Rate"]))
+    #     c.drawString(x_positions[5] + 2, y, str(row["Packing"]))
+    col_widths  = [35, 200, 125, 68, 55, 70]
+
+    # === Table rows ===
     for i, row in df.iterrows():
         y = start_y - i * row_height
-        c.setFont("Helvetica-Bold", 10)
-        c.drawString(x_positions[0] + 2, y, str(i+1))
-        c.drawString(x_positions[1] + 2, y, str(row["Item"]))
-        c.drawString(x_positions[2] + 2, y, str(row["Make"]))
-        c.drawString(x_positions[3] + 2, y, str(row["Quantity"]))
-        c.drawString(x_positions[4] + 2, y, str(row["Rate"]))
-        c.drawString(x_positions[5] + 2, y, str(row["Packing"]))
+        c.setFont("Times-Bold", 12)
 
+        values = [
+            str(i+1),
+            str(row["Item"]),
+            str(row["Make"]),
+            str(row["Quantity"]),
+            str(row["Rate"]),
+            str(row["Packing"])
+        ]
+
+        for j, text in enumerate(values):
+            text_width = c.stringWidth(text, "Times-Roman", 10)
+            x_center = x_positions[j] + (col_widths[j] / 2) - (text_width / 2)
+            c.drawString(x_center, y, text)
     c.save()
 
 def merge_with_template(template_file, overlay_file, output_file):
