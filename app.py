@@ -25,7 +25,7 @@ if st.button("Generate PDF"):
 
         # Merge with template
         output_file = f"quotation_output.pdf"
-        merge_with_template("quotation FINAL copy.pdf", overlay_file, output_file)
+        merge_with_template("quotation FINAL.pdf", overlay_file, output_file)
 
         # Download Quotation
         with open(output_file, "rb") as f:
