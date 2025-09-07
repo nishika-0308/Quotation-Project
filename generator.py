@@ -8,7 +8,7 @@ def create_overlay(excel_file, overlay_file, client_name, date):
     c = canvas.Canvas(overlay_file, pagesize=A4)
 
     # === Client and Date ===
-    c.setFont("Helvetica", 12)
+    c.setFont("Helvetica-Bold", 12)
     c.drawString(50, 710, client_name)
     c.drawString(470, 710, date)
 
@@ -19,7 +19,7 @@ def create_overlay(excel_file, overlay_file, client_name, date):
 
     for i, row in df.iterrows():
         y = start_y - i * row_height
-        c.setFont("Helvetica", 10)
+        c.setFont("Helvetica-Bold", 10)
         c.drawString(x_positions[0] + 2, y, str(i+1))
         c.drawString(x_positions[1] + 2, y, str(row["Item"]))
         c.drawString(x_positions[2] + 2, y, str(row["Make"]))
