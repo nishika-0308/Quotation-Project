@@ -29,7 +29,7 @@ if st.button("Generate PDF"):
         # Generate quotation
         generate_quotation(
             "uploaded.xlsx",
-            template_file="quotation FINAL copy.pdf",
+            template_file="quotation FINAL.pdf",
             output_file=output_file,
             client_name=client_name,
             date=date_val
