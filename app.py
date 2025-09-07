@@ -4,7 +4,7 @@ from generator import generate_quotation, create_overlay, merge_with_template
 
 st.title("📄 Quotation Generator")
 
-st.write("Upload your Excel file, enter client details, and download a ready quotation PDF.")
+st.write("Upload your excel file, enter client details, and download a ready quotation PDF.")
 
 # File upload
 excel_file = st.file_uploader("Upload Excel file", type=["xlsx"])
@@ -38,9 +38,9 @@ if st.button("Generate PDF"):
         # Download Overlay
         with open(overlay_file, "rb") as f:
             st.download_button(
-                "⬇️ Download Overlay PDF",
+                "⬇️ Download Print Overlay PDF",
                 f,
-                file_name="overlay.pdf"
+                file_name=f"overlay.pdf"
             )
 
     else:
