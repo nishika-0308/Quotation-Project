@@ -60,7 +60,7 @@ def merge_with_template(template_file, overlay_file, output_file):
     with open(output_file, "wb") as f:
         writer.write(f)
 
-def generate_quotation(excel_file, template_file="quotation FINAL copy.pdf", output_file="quotation_output.pdf", client_name="M/s ................", date="................"):
+def generate_quotation(excel_file, template_file="quotation FINAL-1.pdf", output_file="quotation_output.pdf", client_name="M/s ................", date="................"):
     overlay_file = "overlay.pdf"
     create_overlay(excel_file, overlay_file, client_name, date)
     merge_with_template(template_file, overlay_file, output_file)

@@ -30,7 +30,7 @@ if st.button("Generate Quotation PDF"):
         overlay_file, output_file = make_filenames(client_name, date_val)
 
         create_overlay("uploaded.xlsx", overlay_file, client_name, date_val)
-        merge_with_template("quotation FINAL.pdf", overlay_file, output_file)
+        merge_with_template("quotation FINAL-1.pdf", overlay_file, output_file)
 
         with open(output_file, "rb") as f:
             st.download_button(
