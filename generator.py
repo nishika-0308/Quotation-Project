@@ -37,8 +37,8 @@ def create_overlay(excel_file, overlay_file, client_name, date):
             str(i+1),
             str(row["Item"]),
             str(row["Make"]),
-            str(row["Quantity"]),
             str(row["Rate"]),
+            str(row["Per"]),
             str(row["Packing"])
         ]
 
