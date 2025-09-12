@@ -31,7 +31,7 @@ def create_overlay(excel_file, overlay_file, client_name, date):
     # === Table rows ===
     for i, row in df.iterrows():
         y = start_y - i * row_height
-        c.setFont("Times-Bold", 12)
+        c.setFont("Times-Bold", 11)
 
         values = [
             str(i+1),
