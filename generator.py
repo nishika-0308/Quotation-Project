@@ -5,6 +5,21 @@ from PyPDF2 import PdfReader, PdfWriter
 
 def create_overlay(excel_file, overlay_file, client_name, date):
     df = pd.read_excel(excel_file)
+
+    # Take Name and Number from the first row of Excel
+    excel_name = str(df.loc[0, "Name"]) if "Name" in df.columns else ""
+    #excel_number = str(df.loc[0, "Number"]) if "Number" in df.columns else ""
+    if "Number" in df.columns:
+        number_val = df.loc[0, "Number"]
+        # Handle both int-like and string cases
+        if pd.api.types.is_number(number_val):
+            # Remove decimal if it's a whole number
+            excel_number = str(int(number_val))
+        else:
+            excel_number = str(number_val)
+    else:
+        excel_number = ""
+
     c = canvas.Canvas(overlay_file, pagesize=A4)
 
     # === Client and Date ===
@@ -12,6 +27,11 @@ def create_overlay(excel_file, overlay_file, client_name, date):
     c.drawString(50, 710, client_name)
     c.drawString(470, 710, date)
 
+    # === Excel Name and Number at top right ===
+    if excel_name or excel_number:
+        c.setFont("Times-Bold", 12)
+        c.drawRightString(550, 815, f"{excel_name}   {excel_number}")
+    
     # === Table ===
     start_y = 600
     row_height = 33
