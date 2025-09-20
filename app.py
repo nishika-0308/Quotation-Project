@@ -26,8 +26,8 @@ chemicals_df = None
 if input_mode == "Upload Excel":
     # === Excel Upload ===
     excel_file = st.file_uploader("Upload Excel file", type=["xlsx"])
-    client_name = st.text_input("Client Name")
-    date_val = st.text_input("Date (dd-mm-yyyy)", value=date_val)
+    client_name = st.text_input("Client Name  :red[*]", placeholder="Enter client name")
+    date_val = st.text_input("Date (dd-mm-yyyy)  :red[*]", value=date_val)
 
     if excel_file:
         df = pd.read_excel(excel_file)
@@ -46,8 +46,10 @@ if input_mode == "Upload Excel":
 
 elif input_mode == "Manual Entry":
     # === Manual Entry ===
-    client_name = st.text_input("Client Name")
-    date_val = st.text_input("Date (dd-mm-yyyy)", value=date_val)
+    client_name = st.text_input("Client Name  :red[*]", placeholder="Enter client name")
+    date_val = st.text_input("Date (dd-mm-yyyy)  :red[*]", value=date_val)
+    # client_name = st.text_input("Client Name")
+    # date_val = st.text_input("Date (dd-mm-yyyy)", value=date_val)
     excel_name = st.text_input("Location Name")
     excel_number = st.text_input("Contact Number")
 
