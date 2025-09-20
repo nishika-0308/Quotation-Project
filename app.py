@@ -75,7 +75,7 @@ if st.button("Generate Quotation PDF"):
     if client_name and chemicals_df is not None and not chemicals_df.empty:
         overlay_file, output_file = make_filenames(client_name, date_val)
         create_overlay(chemicals_df, overlay_file, client_name, date_val, excel_name, excel_number)
-        merge_with_template("quotation FINAL.pdf", overlay_file, output_file)
+        merge_with_template("quotation FINAL-1.pdf", overlay_file, output_file)
 
         with open(output_file, "rb") as f:
             st.download_button("⬇️ Download Quotation PDF", f, file_name=output_file)
