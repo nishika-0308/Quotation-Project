@@ -1,25 +1,8 @@
-import pandas as pd
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from PyPDF2 import PdfReader, PdfWriter
 
-def create_overlay(excel_file, overlay_file, client_name, date):
-    df = pd.read_excel(excel_file)
-
-    # Take Name and Number from the first row of Excel
-    excel_name = str(df.loc[0, "Name"]) if "Name" in df.columns else ""
-    #excel_number = str(df.loc[0, "Number"]) if "Number" in df.columns else ""
-    if "Number" in df.columns:
-        number_val = df.loc[0, "Number"]
-        # Handle both int-like and string cases
-        if pd.api.types.is_number(number_val):
-            # Remove decimal if it's a whole number
-            excel_number = str(int(number_val))
-        else:
-            excel_number = str(number_val)
-    else:
-        excel_number = ""
-
+def create_overlay(df, overlay_file, client_name, date, excel_name="", excel_number=""):
     c = canvas.Canvas(overlay_file, pagesize=A4)
 
     # === Client and Date ===
@@ -31,24 +14,14 @@ def create_overlay(excel_file, overlay_file, client_name, date):
     if excel_name or excel_number:
         c.setFont("Times-Bold", 12)
         c.drawRightString(550, 815, f"{excel_name}   {excel_number}")
-    
-    # === Table ===
+
+    # === Table calibration ===
     start_y = 600
     row_height = 33
-    x_positions = [25, 60, 260, 385, 453, 508]
+    x_positions = [25, 62, 260, 385, 453, 508]
+    col_widths  = [37, 198, 125, 68, 55, 70]
 
-    # for i, row in df.iterrows():
-    #     y = start_y - i * row_height
-    #     c.setFont("Times-Bold", 10)
-    #     c.drawString(x_positions[0] + 2, y, str(i+1))
-    #     c.drawString(x_positions[1] + 2, y, str(row["Item"]))
-    #     c.drawString(x_positions[2] + 2, y, str(row["Make"]))
-    #     c.drawString(x_positions[3] + 2, y, str(row["Quantity"]))
-    #     c.drawString(x_positions[4] + 2, y, str(row["Rate"]))
-    #     c.drawString(x_positions[5] + 2, y, str(row["Packing"]))
-    col_widths  = [35, 200, 125, 68, 55, 70]
-
-    # === Table rows ===
+    # === Table rows (left aligned text) ===
     for i, row in df.iterrows():
         y = start_y - i * row_height
         c.setFont("Times-Bold", 11)
@@ -63,9 +36,13 @@ def create_overlay(excel_file, overlay_file, client_name, date):
         ]
 
         for j, text in enumerate(values):
-            text_width = c.stringWidth(text, "Times-Roman", 10)
-            x_center = x_positions[j] + (col_widths[j] / 2) - (text_width / 2)
-            c.drawString(x_center, y, text)
+            if j == 1:  # Item column → left aligned
+                c.drawString(x_positions[j] + 2, y, text)
+            else:  # Center align all other columns
+                text_width = c.stringWidth(text, "Times-Roman", 10)
+                x_center = x_positions[j] + (col_widths[j] / 2) - (text_width / 2)
+                c.drawString(x_center, y, text)
+
     c.save()
 
 def merge_with_template(template_file, overlay_file, output_file):
@@ -79,9 +56,3 @@ def merge_with_template(template_file, overlay_file, output_file):
 
     with open(output_file, "wb") as f:
         writer.write(f)
-
-def generate_quotation(excel_file, template_file="quotation FINAL-1.pdf", output_file="quotation_output.pdf", client_name="M/s ................", date="................"):
-    overlay_file = "overlay.pdf"
-    create_overlay(excel_file, overlay_file, client_name, date)
-    merge_with_template(template_file, overlay_file, output_file)
-    return output_file
